@@ -98,7 +98,7 @@
 
     <section id="id-card" class="section">
         <div class="container">
-            <h2>Kartu Tanda Cinta</h2>
+            <h2>Foto Kita Pertama Cinta</h2>
             <p>Ini adalah foto luar biasa pertama kita bersama</p>
             <div class="id-card-scene">
                 <div class="id-card-container" id="idCard">
@@ -144,14 +144,20 @@
 
     <section id="game" class="section">
         <div class="container">
-            <div class="game-container">
-                <h2>Satu Pertanyaan Penting...</h2>
-                <p>Jawab yang jujur ya!</p>
-                <div class="game-buttons">
-                    <button id="yesBtn" class="game-btn">MASIH SAYANG ❤️</button>
-                    <button id="noBtn" class="game-btn">ENGGAK 💔</button>
+            <div id="quizContainer" class="glowing-card">
+                <div id="quizContent">
+                    <div id="quizHeader">
+                        <h2 id="quizTitle">Kuis Singkat Edisi Kita!</h2>
+                        <p id="quizProgress"></p>
+                    </div>
+                    <p id="quizQuestion"></p>
+                    <div id="quizAnswers"></div>
                 </div>
-                <p id="gameResult" class="game-result"></p>
+                <div id="quizResultScreen" style="display: none;">
+                    <h2>Hasil Kuis!</h2>
+                    <p id="quizScore"></p>
+                    <p id="quizResultMessage"></p>
+                </div>
             </div>
         </div>
     </section>
@@ -182,7 +188,6 @@
     <!-- CDN Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/SplitText.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 

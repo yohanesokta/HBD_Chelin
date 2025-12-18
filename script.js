@@ -1,12 +1,30 @@
 document.addEventListener('DOMContentLoaded', () => {
-    gsap.registerPlugin(ScrollTrigger, SplitText);
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Helper function to replace GSAP's premium SplitText plugin
+    function manualSplitText(element) {
+        const text = element.textContent;
+        element.innerHTML = '';
+        const chars = [];
+        for (let i = 0; i < text.length; i++) {
+            const char = text[i];
+            const span = document.createElement('span');
+            span.style.display = 'inline-block';
+            span.style.position = 'relative'; // For animation purposes
+            if(char === ' ') span.style.width = '0.5em'; // Give space element some width
+            span.textContent = char;
+            element.appendChild(span);
+            chars.push(span);
+        }
+        return chars;
+    }
 
     const isMobile = window.innerWidth < 768;
 
     /* CUSTOM CURSOR */
-    const cursorDot = document.querySelector('.cursor-dot');
-    const cursorOutline = document.querySelector('.cursor-outline');
     if (!isMobile) {
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
         window.addEventListener('mousemove', (e) => {
             const { clientX, clientY } = e;
             gsap.to(cursorDot, { x: clientX, y: clientY, duration: 0.2, ease: 'power2.out' });
@@ -19,17 +37,23 @@ document.addEventListener('DOMContentLoaded', () => {
             el.addEventListener('mouseleave', handleMouseLeave);
         });
     } else {
-        cursorDot.style.display = 'none';
-        cursorOutline.style.display = 'none';
+        const dot = document.querySelector('.cursor-dot');
+        const outline = document.querySelector('.cursor-outline');
+        if (dot) dot.style.display = 'none';
+        if (outline) outline.style.display = 'none';
         document.body.style.cursor = 'auto';
     }
 
     /* ANIMATIONS */
-    const heroTitle = new SplitText('.hero-title', { type: 'chars' });
-    gsap.timeline({ defaults: { ease: 'power4.out' } })
-        .from(heroTitle.chars, { y: 115, stagger: 0.03, duration: 1 })
-        .from('.hero-subtitle', { opacity: 0, y: 30, duration: 1.2 }, '-=0.7')
-        .from('.scroll-indicator', { opacity: 0, y: 20, duration: 1 }, '-=0.5');
+    const heroTitleElement = document.querySelector('.hero-title');
+    if (heroTitleElement) {
+        const heroTitleChars = manualSplitText(heroTitleElement);
+        gsap.timeline({ defaults: { ease: 'power4.out' } })
+            .from(heroTitleChars, { y: 115, stagger: 0.03, duration: 1 })
+            .from('.hero-subtitle', { opacity: 0, y: 30, duration: 1.2 }, '-=0.7')
+            .from('.scroll-indicator', { opacity: 0, y: 20, duration: 1 }, '-=0.5');
+    }
+
 
     gsap.utils.toArray('.parallax-bg').forEach(bg => {
         gsap.to(bg, {
@@ -51,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
     animateOnScroll('#stats .container', { opacity: 0, y: 50, duration: 1 });
     animateOnScroll('#id-card .container', { opacity: 0, y: 50, duration: 1 });
     animateOnScroll('#dimension .container', { opacity: 0, y: 50, duration: 1 });
-    animateOnScroll('.game-container', { opacity: 0, scale: 0.9, duration: 1, ease: 'power3.out' });
+    animateOnScroll('#quizContainer', { opacity: 0, scale: 0.9, duration: 1, ease: 'power3.out' });
     animateOnScroll('.surprise-title', { opacity: 0, y: 50, duration: 1 });
     animateOnScroll('#wish h2', { opacity: 0, y: 50, duration: 1 });
     animateOnScroll('#wish p', { opacity: 0, y: 50, duration: 1, stagger: 0.2 });
@@ -59,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* LOVE STATS CHART */
     const loveChartCanvas = document.getElementById('loveChart');
-    if (loveChartCanvas) {
+    if (loveChartCanvas && typeof Chart !== 'undefined') {
         ScrollTrigger.create({
             trigger: loveChartCanvas,
             start: 'top 80%',
@@ -92,10 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         responsive: true,
                         maintainAspectRatio: false,
                         animation: { duration: 2000, easing: 'easeInOutQuart' },
-                        scales: {
-                            y: { display: false },
-                            x: { ticks: { color: '#e0e0e0', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.1)' } }
-                        },
+                        scales: { y: { display: false }, x: { ticks: { color: '#e0e0e0', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.1)' } } },
                         plugins: { legend: { display: false }, tooltip: { enabled: true, backgroundColor: 'rgba(0,0,0,0.7)', titleFont: { size: 14 }, bodyFont: { size: 12 }, padding: 10, cornerRadius: 5 } }
                     }
                 });
@@ -105,24 +126,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* ID CARD FLIP */
     const idCard = document.getElementById('idCard');
-    if(idCard) {
-        idCard.addEventListener('click', () => idCard.classList.toggle('is-flipped'));
-    }
+    if(idCard) { idCard.addEventListener('click', () => idCard.classList.toggle('is-flipped')); }
 
-    /* 3D CUBE DRAG */
+    /* 3D CUBE DRAG (FIXED & POLISHED) */
     const cube = document.getElementById('cube');
     if(cube) {
         let isDragging = false, prevX, prevY;
-        let rotationX = -30, rotationY = -45;
+        let rotX = -30, rotY = -45;
+        let autoRotate = gsap.to(cube, { rotationY: "+=360", rotationX: "+=10", duration: 30, ease: "none", repeat: -1 });
 
-        gsap.set(cube, { rotationX, rotationY });
+        gsap.set(cube, { rotationX: rotX, rotationY: rotY });
 
         const startDrag = (e) => {
             e.preventDefault();
             isDragging = true;
-            cube.style.animationPlayState = 'paused';
+            autoRotate.pause();
             prevX = e.clientX || e.touches[0].clientX;
             prevY = e.clientY || e.touches[0].clientY;
+            gsap.to(cube.querySelectorAll('.cube-face'), { boxShadow: "0 0 40px var(--glow-cyan) inset", duration: 0.3 });
         };
 
         const onDrag = (e) => {
@@ -133,10 +154,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const dX = clientX - prevX;
             const dY = clientY - prevY;
             
-            rotationY += dX * 0.5;
-            rotationX -= dY * 0.5;
+            rotY += dX * 0.5;
+            rotX -= dY * 0.5;
             
-            gsap.to(cube, { rotationX, rotationY, duration: 0.1, ease: 'power1.out' });
+            gsap.to(cube, { rotationX: rotX, rotationY: rotY, duration: 0.1, ease: 'power1.out' });
 
             prevX = clientX;
             prevY = clientY;
@@ -145,7 +166,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const endDrag = () => {
             if (!isDragging) return;
             isDragging = false;
-            cube.style.animationPlayState = 'running';
+            autoRotate.resume();
+            gsap.to(cube.querySelectorAll('.cube-face'), { boxShadow: "0 0 20px var(--glow-cyan) inset", duration: 0.5 });
         };
         
         cube.addEventListener('mousedown', startDrag);
@@ -156,94 +178,91 @@ document.addEventListener('DOMContentLoaded', () => {
         document.addEventListener('touchend', endDrag);
     }
 
-    /* MINI GAME (V2 - MORE FUN!) */
-    const yesBtn = document.getElementById('yesBtn');
-    if(yesBtn) {
-        const noBtn = document.getElementById('noBtn');
-        const gameContainer = document.querySelector('.game-container');
-        const gameResult = document.getElementById('gameResult');
-        const noButtonPhrases = ["Yakin?", "Serius?", "Coba lagi 😜", "Nggak boleh!", "Pikirin lagi...", "Dilarang!"];
+    /* QUIZ LOGIC (Replaces Mini-Game) */
+    const quizContainer = document.getElementById('quizContainer');
+    if (quizContainer) {
+        const quizContent = document.getElementById('quizContent');
+        const quizProgress = document.getElementById('quizProgress');
+        const quizQuestion = document.getElementById('quizQuestion');
+        const quizAnswers = document.getElementById('quizAnswers');
+        const quizResultScreen = document.getElementById('quizResultScreen');
+        const quizScore = document.getElementById('quizScore');
+        const quizResultMessage = document.getElementById('quizResultMessage');
 
-        const moveNoButton = (e) => {
-            const rand = Math.random();
-            
-            // Add varied "runaway" animations
-            if (rand < 0.6) { // 60% chance: Standard move
-                gsap.to(noBtn, {
-                    x: gsap.utils.random(0, gameContainer.offsetWidth - noBtn.offsetWidth),
-                    y: gsap.utils.random(0, gameContainer.offsetHeight - noBtn.offsetHeight),
-                    duration: 0.4,
-                    ease: 'power3.out'
-                });
-            } else if (rand < 0.8) { // 20% chance: Shrink, move, grow
-                gsap.timeline()
-                    .to(noBtn, { scale: 0.1, duration: 0.2, ease: 'power2.in' })
-                    .to(noBtn, {
-                        x: gsap.utils.random(0, gameContainer.offsetWidth - noBtn.offsetWidth),
-                        y: gsap.utils.random(0, gameContainer.offsetHeight - noBtn.offsetHeight),
-                        duration: 0.01
-                    })
-                    .to(noBtn, { scale: 1, duration: 0.3, ease: 'back.out' });
-            } else { // 20% chance: Taunt shake then move
-                gsap.timeline()
-                    .to(noBtn, { rotation: gsap.utils.random(-15, 15), x: '+=10', repeat: 3, yoyo: true, duration: 0.05 })
-                    .to(noBtn, {
-                        x: gsap.utils.random(0, gameContainer.offsetWidth - noBtn.offsetWidth),
-                        y: gsap.utils.random(0, gameContainer.offsetHeight - noBtn.offsetHeight),
-                        rotation: 0,
-                        duration: 0.5,
-                        ease: 'expo.out'
-                    });
+        const quizData = [
+            { question: "Di mana tempat pertama kali kita 'official' jalan bareng?", answers: ["Taman Bungkul", "Galaxy Mall", "Alun-Alun Sidoarjo", "KBS"], correct: 2 },
+            { question: "Apa judul film pertama yang kita tonton bareng di bioskop?", answers: ["Agak Laen", "KKN Di Desa Penari", "Pengabdi Setan 2", "Doctor Strange"], correct: 0 },
+            { question: "Apa panggilan sayang favoritku buat kamu?", answers: ["Gembul", "Sayang", "Ndut", "Semua benar"], correct: 3 },
+            { question: "Warna apa yang paling sering kamu sebut sebagai warna favoritmu?", answers: ["Hitam", "Pink", "Biru", "Ungu"], correct: 1 },
+            { question: "Kalau kita cuma bisa makan satu jenis makanan selamanya, apa yang bakal kamu pilih?", answers: ["Seblak", "Bakso", "Nasi Goreng", "Pizza"], correct: 0 }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            if (!quizContent || currentQuestionIndex >= quizData.length) {
+                showResults();
+                return;
             }
-            
-            noBtn.textContent = noButtonPhrases[Math.floor(Math.random() * noButtonPhrases.length)];
-            if (e.type !== 'mouseover') gsap.fromTo(gameContainer, { x: 0 }, { x: 10, duration: 0.05, repeat: 5, yoyo: true, clearProps: 'x' });
-        };
 
-        noBtn.addEventListener('mouseover', moveNoButton);
-        noBtn.addEventListener('click', moveNoButton);
+            const currentQuestion = quizData[currentQuestionIndex];
+            quizProgress.textContent = `Pertanyaan ${currentQuestionIndex + 1} / ${quizData.length}`;
+            quizQuestion.textContent = currentQuestion.question;
+            quizAnswers.innerHTML = '';
 
-        yesBtn.addEventListener('click', () => {
-            // More explosive celebration
-            const shockwave = document.createElement('div');
-            shockwave.style.position = 'absolute';
-            shockwave.style.left = '50%';
-            shockwave.style.top = '50%';
-            shockwave.style.transform = 'translate(-50%, -50%)';
-            shockwave.style.width = '100px';
-            shockwave.style.height = '100px';
-            shockwave.style.borderRadius = '50%';
-            shockwave.style.backgroundColor = 'white';
-            shockwave.style.zIndex = '0';
-            gameContainer.appendChild(shockwave);
+            currentQuestion.answers.forEach((answer, index) => {
+                const button = document.createElement('button');
+                button.textContent = answer;
+                button.classList.add('answer-btn');
+                button.dataset.index = index;
+                button.addEventListener('click', selectAnswer);
+                quizAnswers.appendChild(button);
+            });
+        }
 
-            // Confetti
-            const duration = 3 * 1000, animationEnd = Date.now() + duration;
-            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 10000 };
-            const randomInRange = (min, max) => Math.random() * (max - min) + min;
-            const interval = setInterval(() => {
-                const timeLeft = animationEnd - Date.now();
-                if (timeLeft <= 0) return clearInterval(interval);
-                const particleCount = 80 * (timeLeft / duration);
-                confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.2, 0.8), y: Math.random() - 0.2 } });
-            }, 250);
-            
-            // Result text animation
-            gameResult.textContent = "UDAH KUTEBAK SIH ❤️";
-            const resultSplit = new SplitText(gameResult, { type: 'chars' });
+        function selectAnswer(e) {
+            const selectedButton = e.target;
+            const selectedIndex = parseInt(selectedButton.dataset.index);
+            const correctIndex = quizData[currentQuestionIndex].correct;
 
-            gsap.timeline()
-                .to([yesBtn, noBtn], { opacity: 0, scale: 0, duration: 0.5, ease: 'back.in(1.7)' })
-                .to(shockwave, { scale: 20, opacity: 0, duration: 1, ease: 'power2.out' }, "-=0.4")
-                .from(resultSplit.chars, {
-                    y: 50,
-                    opacity: 0,
-                    scale: 2,
-                    stagger: 0.05,
-                    ease: 'back.out(1.7)',
-                    onComplete: () => shockwave.remove()
-                }, "-=0.8");
-        });
+            document.querySelectorAll('.answer-btn').forEach(btn => btn.disabled = true);
+
+            if (selectedIndex === correctIndex) {
+                score++;
+                selectedButton.classList.add('correct');
+                if(typeof confetti === 'function'){
+                    const flowerConfetti = confetti.create(null, { resize: true });
+                    flowerConfetti({ particleCount: 30, spread: 60, origin: { y: 0.6 }, shapes: ['star'], colors: ['#FFC0CB', '#FFB6C1', '#FF69B4', '#FF1493', '#C71585'] });
+                }
+            } else {
+                selectedButton.classList.add('incorrect');
+                gsap.fromTo('body', { x: -10 }, { x: 10, repeat: 5, yoyo: true, duration: 0.05, clearProps: 'x' });
+            }
+
+            setTimeout(() => {
+                currentQuestionIndex++;
+                loadQuestion();
+            }, 1500);
+        }
+
+        function showResults() {
+            if(quizContent) quizContent.style.display = 'none';
+            if(quizResultScreen) quizResultScreen.style.display = 'block';
+
+            quizScore.textContent = `Skor Kamu: ${score} / ${quizData.length}`;
+            let message = "";
+            if (score === quizData.length) {
+                message = "SEMPURNA! Kamu emang paling ngerti aku. Makin sayang deh! ❤️";
+            } else if (score >= quizData.length / 2) {
+                message = "Hampir sempurna! Not bad, kamu cukup kenal aku kok. Hehe.";
+            } else {
+                message = "Hmm, kayaknya kita perlu lebih banyak ngobrol nih, hehe. But it's okay, I still love you the same!";
+            }
+            quizResultMessage.textContent = message;
+        }
+
+        loadQuestion();
     }
 
     /* SURPRISE TYPING ANIMATION */
@@ -255,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ScrollTrigger.create({ trigger: '#surprise', start: 'top 70%', onEnter: () => { if (i === 0) typeWriter(); }, once: true });
     }
 
-    /* FLOATING HEARTS */
+    /* FLOATING HEARTS (FIXED) */
     const floatingHeartsContainer = document.getElementById('floatingHearts');
     if(floatingHeartsContainer) {
         gsap.ticker.add(() => {
@@ -267,7 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 gsap.fromTo(heart, {
                     x: Math.random() * window.innerWidth, y: window.innerHeight + 50, scale: Math.random() * 1 + 0.5, opacity: 0
                 }, {
-                    y: -100, x: '+=_random(-100, 100)', opacity: 1, duration: Math.random() * 5 + 5, ease: "none", onComplete: () => heart.remove()
+                    y: -100, x: `+=${gsap.utils.random(-100, 100)}`, opacity: 1, duration: gsap.utils.random(5, 10), ease: "none", onComplete: () => heart.remove()
                 });
             }
         });
