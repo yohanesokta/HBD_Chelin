@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Helper function to replace GSAP's premium SplitText plugin
     function manualSplitText(element) {
+        if (!element) return [];
         const text = element.textContent;
         element.innerHTML = '';
         const chars = [];
@@ -10,8 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const char = text[i];
             const span = document.createElement('span');
             span.style.display = 'inline-block';
-            span.style.position = 'relative'; // For animation purposes
-            if(char === ' ') span.style.width = '0.5em'; // Give space element some width
+            span.style.position = 'relative';
+            if (char === ' ') span.style.width = '0.5em'; // Give space element some width
             span.textContent = char;
             element.appendChild(span);
             chars.push(span);
@@ -49,11 +50,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (heroTitleElement) {
         const heroTitleChars = manualSplitText(heroTitleElement);
         gsap.timeline({ defaults: { ease: 'power4.out' } })
-            .from(heroTitleChars, { y: 115, stagger: 0.03, duration: 1 })
+            .from(heroTitleChars, { y: 115, opacity: 0, stagger: 0.03, duration: 1 })
             .from('.hero-subtitle', { opacity: 0, y: 30, duration: 1.2 }, '-=0.7')
             .from('.scroll-indicator', { opacity: 0, y: 20, duration: 1 }, '-=0.5');
     }
-
 
     gsap.utils.toArray('.parallax-bg').forEach(bg => {
         gsap.to(bg, {
@@ -63,7 +63,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    const animateOnScroll = (elem, vars) => gsap.from(elem, { scrollTrigger: { trigger: elem, start: 'top 85%', toggleActions: 'play none none none' }, ...vars });
+    const animateOnScroll = (elem, vars) => {
+        const elements = gsap.utils.toArray(elem);
+        elements.forEach(el => {
+            gsap.from(el, { scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' }, ...vars });
+        })
+    };
+    
     animateOnScroll('.glowing-card', { opacity: 0, y: 80, duration: 1, ease: 'power3.out' });
     gsap.from('.gallery-item', { scrollTrigger: { trigger: '.gallery-grid', start: 'top 80%' }, opacity: 0, y: 50, scale: 0.9, duration: 0.8, stagger: 0.1, ease: 'power3.out' });
     gsap.utils.toArray('.timeline-item').forEach(item => {
@@ -75,7 +81,6 @@ document.addEventListener('DOMContentLoaded', () => {
     animateOnScroll('#stats .container', { opacity: 0, y: 50, duration: 1 });
     animateOnScroll('#id-card .container', { opacity: 0, y: 50, duration: 1 });
     animateOnScroll('#dimension .container', { opacity: 0, y: 50, duration: 1 });
-    animateOnScroll('#quizContainer', { opacity: 0, scale: 0.9, duration: 1, ease: 'power3.out' });
     animateOnScroll('.surprise-title', { opacity: 0, y: 50, duration: 1 });
     animateOnScroll('#wish h2', { opacity: 0, y: 50, duration: 1 });
     animateOnScroll('#wish p', { opacity: 0, y: 50, duration: 1, stagger: 0.2 });
@@ -186,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const quizQuestion = document.getElementById('quizQuestion');
         const quizAnswers = document.getElementById('quizAnswers');
         const quizResultScreen = document.getElementById('quizResultScreen');
-        const quizScore = document.getElementById('quizScore');
+        const quizScoreEl = document.getElementById('quizScore');
         const quizResultMessage = document.getElementById('quizResultMessage');
 
         const quizData = [
@@ -201,7 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let score = 0;
 
         function loadQuestion() {
-            if (!quizContent || currentQuestionIndex >= quizData.length) {
+            if (currentQuestionIndex >= quizData.length) {
                 showResults();
                 return;
             }
@@ -231,9 +236,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (selectedIndex === correctIndex) {
                 score++;
                 selectedButton.classList.add('correct');
-                if(typeof confetti === 'function'){
-                    const flowerConfetti = confetti.create(null, { resize: true });
-                    flowerConfetti({ particleCount: 30, spread: 60, origin: { y: 0.6 }, shapes: ['star'], colors: ['#FFC0CB', '#FFB6C1', '#FF69B4', '#FF1493', '#C71585'] });
+                if (typeof confetti === 'function') {
+                    confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, shapes: ['circle', 'star'], colors: ['#FFC0CB', '#FFB6C1', '#FF69B4', '#FF1493', '#C71585'] });
                 }
             } else {
                 selectedButton.classList.add('incorrect');
@@ -247,10 +251,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function showResults() {
-            if(quizContent) quizContent.style.display = 'none';
-            if(quizResultScreen) quizResultScreen.style.display = 'block';
-
-            quizScore.textContent = `Skor Kamu: ${score} / ${quizData.length}`;
+            gsap.timeline()
+                .to(quizContent, { opacity: 0, duration: 0.5 })
+                .set(quizContent, { display: 'none' })
+                .set(quizResultScreen, { display: 'block', opacity: 0 })
+                .to(quizResultScreen, { opacity: 1, duration: 0.5 });
+            
+            quizScoreEl.textContent = `Skor Kamu: ${score} / ${quizData.length}`;
             let message = "";
             if (score === quizData.length) {
                 message = "SEMPURNA! Kamu emang paling ngerti aku. Makin sayang deh! ❤️";
@@ -273,6 +280,34 @@ document.addEventListener('DOMContentLoaded', () => {
         const typeWriter = () => { if (i < surpriseText.length) { surpriseTextElement.innerHTML += surpriseText.charAt(i++); setTimeout(typeWriter, 60); } };
         ScrollTrigger.create({ trigger: '#surprise', start: 'top 70%', onEnter: () => { if (i === 0) typeWriter(); }, once: true });
     }
+
+    /* NEW: SCROLL-BASED BACKGROUND COLOR CHANGE */
+    const sectionColors = {
+        "#hero": "#0d0c1d",
+        "#letter": "#2c233d",
+        "#gallery": "#1a1a1a",
+        "#timeline": "#1a2a45",
+        "#stats": "#4d2241",
+        "#id-card": "#12343b",
+        "#dimension": "#123b3b",
+        "#game": "#4a2d5e",
+        "#surprise": "#5e4a2d",
+        "#wish": "#3b3251",
+        "#final": "#0d0c1d"
+    };
+
+    gsap.utils.toArray("section").forEach(section => {
+        const color = sectionColors[`#${section.id}`];
+        if (color) {
+            ScrollTrigger.create({
+                trigger: section,
+                start: "top 60%",
+                end: "bottom 40%",
+                onEnter: () => gsap.to('body', { backgroundColor: color, duration: 1.0, ease: 'sine.inOut' }),
+                onEnterBack: () => gsap.to('body', { backgroundColor: color, duration: 1.0, ease: 'sine.inOut' })
+            });
+        }
+    });
 
     /* FLOATING HEARTS (FIXED) */
     const floatingHeartsContainer = document.getElementById('floatingHearts');
