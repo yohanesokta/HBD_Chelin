@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     gsap.registerPlugin(ScrollTrigger, Draggable);
 
-    // Helper function to manually split text into characters for animation
     function manualSplitText(element) {
         if (!element) return [];
         const text = element.textContent;
@@ -22,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const isMobile = window.innerWidth < 768;
 
-    // Custom cursor logic for non-mobile devices
     if (!isMobile) {
         const cursorDot = document.querySelector('.cursor-dot');
         const cursorOutline = document.querySelector('.cursor-outline');
@@ -44,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.cursor = 'auto';
     }
 
-    // --- INTRO & AUDIO LOGIC ---
     const introOverlay = document.getElementById('introOverlay');
     const backgroundAudio = document.getElementById('backgroundAudio');
     const heroTitleElement = document.querySelector('.hero-title');
@@ -72,7 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 introOverlay.style.display = 'none';
                 document.body.classList.remove('intro-active');
                 
-                // CRITICAL FIX: Refresh ScrollTrigger after content is displayed
                 ScrollTrigger.refresh();
 
                 if (heroTl) {
@@ -83,7 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { once: true });
 
 
-    // --- SCROLL-BASED ANIMATIONS ---
     const animateOnScroll = (elem, vars) => {
         const elements = gsap.utils.toArray(elem);
         elements.forEach(el => {
@@ -115,9 +110,6 @@ document.addEventListener('DOMContentLoaded', () => {
     animateOnScroll('#wish p', { opacity: 0, y: 50, duration: 1, stagger: 0.2 });
     animateOnScroll('.final-text', { opacity: 0, scale: 0.8, duration: 1.5, ease: 'power3.out' });
 
-    // --- INTERACTIVE ELEMENTS & FEATURES ---
-
-    /* LOVE STATS CHART */
     const loveChartCanvas = document.getElementById('loveChart');
     if (loveChartCanvas && typeof Chart !== 'undefined') {
         ScrollTrigger.create({
@@ -167,7 +159,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    /* QUIZ LOGIC */
     const quizContainer = document.getElementById('quizContainer');
     if (quizContainer) {
         const quizContent = document.getElementById('quizContent');
@@ -227,7 +218,6 @@ document.addEventListener('DOMContentLoaded', () => {
         loadQuestion();
     }
 
-    /* SURPRISE TYPING ANIMATION */
     const surpriseTextElement = document.getElementById('surpriseText');
     if(surpriseTextElement) {
         const surpriseText = "Aku janji bakal selalu bikin kamu ketawa, jadi fans nomer #1 kamu, dan makin sayang setiap harinya. Yuk, bikin lebih banyak lagi kenangan indah bareng-bareng.";
@@ -236,7 +226,6 @@ document.addEventListener('DOMContentLoaded', () => {
         ScrollTrigger.create({ trigger: '#surprise', start: 'top 70%', onEnter: () => { if (i === 0) typeWriter(); }, once: true });
     }
 
-    /* FLOATING HEARTS */
     const floatingHeartsContainer = document.getElementById('floatingHearts');
     if(floatingHeartsContainer) {
         gsap.ticker.add(() => {
@@ -250,7 +239,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    /* BACKGROUND COLOR CHANGE ON SCROLL */
     const sectionColors = { "#hero": "#0d0c1d", "#letter": "#2c233d", "#gallery": "#1a1a1a", "#timeline": "#1a2a45", "#stats": "#4d2241", "#id-card": "#12343b", "#dimension": "#123b3b", "#game": "#4a2d5e", "#surprise": "#5e4a2d", "#wish": "#3b3251", "#final": "#0d0c1d" };
     gsap.utils.toArray("section").forEach(section => {
         const color = sectionColors[`#${section.id}`];
