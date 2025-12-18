@@ -180,7 +180,7 @@
         .heart { position: absolute; bottom: -50px; font-size: 2rem; color: var(--accent-color); text-shadow: 0 0 15px var(--glow-pink); opacity: 0; }
 
         #final { z-index: 1; }
-        #final .parallax-bg { background-image: url('https://images.unsplash.com/photo-1542100057-554439c3a388?q=80&w=1974&auto=format&fit=crop'); filter: brightness(0.6); }
+        #final .parallax-bg { background-image: url('./images/s6.jpg'); filter: brightness(0.6); }
         #final h2 { font-size: clamp(2.8rem, 7vw, 5rem); }
         
         @media (max-width: 768px) {
@@ -275,5 +275,80 @@
         padding: 12px 25px;
         font-size: 1rem;
     }
+}
+
+
+.audio-toggle-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+    background-color: var(--card-bg);
+    color: var(--white);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    cursor: none;
+    backdrop-filter: blur(var(--backdrop-blur));
+    -webkit-backdrop-filter: blur(var(--backdrop-blur));
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+.audio-toggle-button:hover {
+    border-color: var(--glow-pink);
+    color: var(--glow-pink);
+    box-shadow: 0 0 15px var(--glow-pink);
+}
+.audio-toggle-button i {
+    pointer-events: none; /* Avoid conflicts with cursor logic */
+}
+
+
+/* INTRO OVERLAY STYLES */
+#introOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-color);
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: opacity 1s ease-in-out;
+}
+.intro-content {
+    text-align: center;
+    color: var(--white);
+}
+.letter-icon {
+    font-size: 5rem;
+    color: var(--glow-pink);
+    text-shadow: 0 0 20px var(--glow-pink);
+    animation: pulse-glow 2s infinite;
+}
+@keyframes pulse-glow {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+}
+.intro-content h1 {
+    font-size: 2.5rem;
+    margin-top: 1rem;
+}
+.intro-content p {
+    font-size: 1rem;
+    color: var(--primary-text);
+    margin-top: 0.5rem;
+}
+body.intro-active main {
+    display: none;
 }
 

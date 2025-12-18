@@ -12,182 +12,200 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css">
-</head>
-<body>
     
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="intro-active">
+    
+    <!-- New: Intro Overlay -->
+    <div id="introOverlay">
+        <div class="intro-content">
+            <div class="letter-icon">
+                <i class="fas fa-envelope-open-text"></i>
+            </div>
+            <h1>Ada Surat Untukmu...</h1>
+            <p>(Klik di mana saja untuk membuka)</p>
+        </div>
+    </div>
+
     <div class="cursor-dot"></div>
     <div class="cursor-outline"></div>
 
-    <section id="hero" class="full-screen section">
-        <div class="parallax-bg"></div>
-        <div class="container">
-            <h1 class="hero-title">Selamat Ulang Tahun, Sayangku ❤️</h1>
-            <p class="subtitle hero-subtitle">Buat orang yang bikin duniaku lebih cerah, hari-hariku lebih kocak, dan hatiku lebih penuh. Ini cuma pengingat kecil betapa berartinya kamu buat aku.</p>
-        </div>
-        <div class="scroll-indicator"></div>
-    </section>
+    <audio id="backgroundAudio" src="./audio/audio.mp3" loop></audio>
 
-    <section id="letter" class="section">
-        <div class="container">
-            <div class="love-letter-card glowing-card">
-                <h2>Sepucuk Surat Digital Buat Kamu</h2>
-                <p>Sayangku Krismalia Chelin,</p>
-                <p>Kalau aku disuruh nulis semua alesan kenapa aku cinta kamu, kayaknya butuh satu galaksi, bukan cuma satu halaman web. Tapi hari ini, di hari spesialmu, aku mau coba rangkum sedikit dari keajaiban itu.</p>
-                <p>Kamu itu partner in crime-ku, komedian favoritku, dan jiwa terindah yang pernah aku kenal. Setiap hari sama kamu itu petualangan baru yang nggak pernah aku pengen udahan. Makasih ya udah jadi kamu.</p>
-                <p>Dengan segenap cintaku,<br> Yohanes Oktanio</p>
+    <main id="mainContent">
+        <section id="hero" class="full-screen section">
+            <div class="parallax-bg"></div>
+            <div class="container">
+                <h1 class="hero-title">Selamat Ulang Tahun, Sayangku ❤️</h1>
+                <p class="subtitle hero-subtitle">Buat orang yang bikin duniaku lebih cerah, hari-hariku lebih kocak, dan hatiku lebih penuh. Ini cuma pengingat kecil betapa berartinya kamu buat aku.</p>
             </div>
-        </div>
-    </section>
+            <div class="scroll-indicator"></div>
+        </section>
 
-    <section id="gallery" class="section">
-        <div class="container">
-            <h2>Galeri Kenangan Kita</h2>
-            <div class="gallery-grid">
-                <!-- USER ACTION: Ganti src gambar ini dengan foto-foto kenangan kalian -->
-                <div class="gallery-item"><img src="./images/s1.jpg" alt="Memory 1"></div>
-                <div class="gallery-item"><img src="./images/s2.png" alt="Memory 2"></div>
-                <div class="gallery-item"><img src="./images/s3.jpg" alt="Memory 3"></div>
-                <div class="gallery-item"><img src="./images/s4.jpg" alt="Memory 4"></div>
-                <div class="gallery-item"><img src="./images/s5.jpg" alt="Memory 5"></div>
-                <div class="gallery-item"><img src="./images/s6.jpg" alt="Memory 6"></div>
-            </div>
-        </div>
-    </section>
-
-    <section id="timeline" class="section">
-        <div class="container">
-            <h2>Jejak Kisah Kita</h2>
-            <div class="timeline">
-                <div class="timeline-item timeline-left">
-                    <div class="timeline-content glowing-card">
-                        <h3>Pertama Kali Bonceng Kamu</h3>
-                        <p>Tau banget rasanya hari hari record film bersama mu. yang selalu ku ingat saat kamu ingin banget lihat bulan ( Bulan Oh Bulan )</p>
-                    </div>
-                </div>
-                <div class="timeline-item timeline-right">
-                    <div class="timeline-content glowing-card">
-                        <h3>Trip Pertama Kita</h3>
-                        <p>Trip spontan ke apa..., yap lihat jaranan lagi dan lagi wkwkwk. 2 kali aku membonjengmu hanya ingin lihat jaranan</p>
-                    </div>
-                </div>
-                 <div class="timeline-item timeline-left">
-                    <div class="timeline-content glowing-card">
-                        <h3>Resmi Jadi "Kita"</h3>
-                        <span class="date">Maret 2024</span>
-                        <p>Hari di mana kita jalan jalan bareng keliling surabaya muter banyak kali..</p>
-                    </div>
-                </div>
-                <div class="timeline-item timeline-right">
-                    <div class="timeline-content glowing-card">
-                        <h3>Hari Ini & Selamanya</h3>
-                        <span class="date">Ulang Tahunmu!</span>
-                        <p>Ngerayain kamu hari ini, dan super excited buat semua chapter selanjutnya yang bakal kita tulis bareng.</p>
-                    </div>
+        <section id="letter" class="section">
+            <div class="container">
+                <div class="love-letter-card glowing-card">
+                    <h2>Sepucuk Surat Digital Buat Kamu</h2>
+                    <p>Sayangku Krismalia Chelin,</p>
+                    <p>Kalau aku disuruh nulis semua alesan kenapa aku cinta kamu, kayaknya butuh satu galaksi, bukan cuma satu halaman web. Tapi hari ini, di hari spesialmu, aku mau coba rangkum sedikit dari keajaiban itu.</p>
+                    <p>Kamu itu partner in crime-ku, komedian favoritku, dan jiwa terindah yang pernah aku kenal. Setiap hari sama kamu itu petualangan baru yang nggak pernah aku pengen udahan. Makasih ya udah jadi kamu.</p>
+                    <p>Dengan segenap cintaku,<br> Yohanes Oktanio</p>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="stats" class="section">
-        <div class="container">
-            <h2>Statistik Sayangku ke Kamu</h2>
-            <p>Katanya cinta itu buta, tapi data nggak pernah bohong. Ini grafik rasa sayangku yang fluktuatif tapi selalu trending up buat kamu.</p>
-            <canvas id="loveChart"></canvas>
-        </div>
-    </section>
+        <section id="gallery" class="section">
+            <div class="container">
+                <h2>Galeri Kenangan Kita</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item"><img src="./images/s1.jpg" alt="Memory 1"></div>
+                    <div class="gallery-item"><img src="./images/s2.png" alt="Memory 2"></div>
+                    <div class="gallery-item"><img src="./images/s3.jpg" alt="Memory 3"></div>
+                    <div class="gallery-item"><img src="./images/s4.jpg" alt="Memory 4"></div>
+                    <div class="gallery-item"><img src="./images/s5.jpg" alt="Memory 5"></div>
+                    <div class="gallery-item"><img src="./images/s6.jpg" alt="Memory 6"></div>
+                </div>
+            </div>
+        </section>
 
-    <section id="id-card" class="section">
-        <div class="container">
-            <h2>Foto Kita Pertama Cinta</h2>
-            <p>Ini adalah foto luar biasa pertama kita bersama</p>
-            <div class="id-card-scene">
-                <div class="id-card-container" id="idCard">
-                    <div class="id-card-face id-card-front">
-                        <img src="./images/f1.jpg" alt="Foto ID">
-                    </div>
-                    <div class="id-card-face id-card-back">
-                        <h3>KARTU TANDA CINTA</h3>
-                        <div class="field">
-                            <div class="field-label">NAMA</div>
-                            <div class="field-value">Krismalia Chelin</div>
+        <section id="timeline" class="section">
+            <div class="container">
+                <h2>Jejak Kisah Kita</h2>
+                <div class="timeline">
+                    <div class="timeline-item timeline-left">
+                        <div class="timeline-content glowing-card">
+                            <h3>Pertama Kali Bonceng Kamu</h3>
+                            <p>Tau banget rasanya hari hari record film bersama mu. yang selalu ku ingat saat kamu ingin banget lihat bulan ( Bulan Oh Bulan )</p>
                         </div>
-                        <div class="field">
-                            <div class="field-label">STATUS</div>
-                            <div class="field-value">The Only One</div>
+                    </div>
+                    <div class="timeline-item timeline-right">
+                        <div class="timeline-content glowing-card">
+                            <h3>Trip Pertama Kita</h3>
+                            <p>Trip spontan ke apa..., yap lihat jaranan lagi dan lagi wkwkwk. 2 kali aku membonjengmu hanya ingin lihat jaranan</p>
                         </div>
-                        <div class="field">
-                            <div class="field-label">VALID THRU</div>
-                            <div class="field-value">FOREVER ❤️</div>
+                    </div>
+                     <div class="timeline-item timeline-left">
+                        <div class="timeline-content glowing-card">
+                            <h3>Resmi Jadi "Kita"</h3>
+                            <span class="date">Maret 2024</span>
+                            <p>Hari di mana kita jalan jalan bareng keliling surabaya muter banyak kali..</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item timeline-right">
+                        <div class="timeline-content glowing-card">
+                            <h3>Hari Ini & Selamanya</h3>
+                            <span class="date">Ulang Tahunmu!</span>
+                            <p>Ngerayain kamu hari ini, dan super excited buat semua chapter selanjutnya yang bakal kita tulis bareng.</p>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="dimension" class="section">
-        <div class="container">
-            <h2>Dimensi Cinta Kita</h2>
-            <p>Beberapa kenangan kita dalam bentuk 3D. Coba deh puter-puter kubusnya pake mouse atau sentuhan jarimu!</p>
-            <div class="cube-scene">
-                <div class="cube" id="cube">
-                    <div class="cube-face cube-front" style="background-image: url('./images/cube-front.jpg')"></div>
-                    <div class="cube-face cube-back" style="background-image: url('./images/cube-back.jpg')"></div>
-                    <div class="cube-face cube-right" style="background-image: url('./images/cube-right.jpg')"></div>
-                    <div class="cube-face cube-left" style="background-image: url('./images/cube-left.jpg')"></div>
-                    <div class="cube-face cube-top" style="background-image: url('./images/cube-top.jpg')"></div>
-                    <div class="cube-face cube-bottom" style="background-image: url('./images/cube-bottom.png')"></div>
-                </div>
+        <section id="stats" class="section">
+            <div class="container">
+                <h2>Statistik Sayangku ke Kamu</h2>
+                <p>Katanya cinta itu buta, tapi data nggak pernah bohong. Ini grafik rasa sayangku yang fluktuatif tapi selalu trending up buat kamu.</p>
+                <canvas id="loveChart"></canvas>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="game" class="section">
-        <div class="container">
-            <div id="quizContainer" class="glowing-card">
-                <div id="quizContent">
-                    <div id="quizHeader">
-                        <h2 id="quizTitle">Kuis Singkat Edisi Kita!</h2>
-                        <p id="quizProgress"></p>
+        <section id="id-card" class="section">
+            <div class="container">
+                <h2>Foto Kita Pertama Cinta</h2>
+                <p>Ini adalah foto luar biasa pertama kita bersama</p>
+                <div class="id-card-scene">
+                    <div class="id-card-container" id="idCard">
+                        <div class="id-card-face id-card-front">
+                            <img src="./images/f1.jpg" alt="Foto ID">
+                        </div>
+                        <div class="id-card-face id-card-back">
+                            <h3>KARTU TANDA CINTA</h3>
+                            <div class="field">
+                                <div class="field-label">NAMA</div>
+                                <div class="field-value">Krismalia Chelin</div>
+                            </div>
+                            <div class="field">
+                                <div class="field-label">STATUS</div>
+                                <div class="field-value">The Only One</div>
+                            </div>
+                            <div class="field">
+                                <div class="field-label">VALID THRU</div>
+                                <div class="field-value">FOREVER ❤️</div>
+                            </div>
+                        </div>
                     </div>
-                    <p id="quizQuestion"></p>
-                    <div id="quizAnswers"></div>
-                </div>
-                <div id="quizResultScreen" style="display: none;">
-                    <h2>Hasil Kuis!</h2>
-                    <p id="quizScore"></p>
-                    <p id="quizResultMessage"></p>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="surprise" class="section">
-        <div class="container">
-            <h2 class="surprise-title">Satu Janji Kecil...</h2>
-            <p id="surpriseText" class="surprise-text"></p>
-        </div>
-    </section>
+        <section id="dimension" class="section">
+            <div class="container">
+                <h2>Dimensi Cinta Kita</h2>
+                <p>Beberapa kenangan kita dalam bentuk 3D. Coba deh puter-puter kubusnya pake mouse atau sentuhan jarimu!</p>
+                <div class="cube-scene">
+                    <div class="cube" id="cube">
+                        <div class="cube-face cube-front" style="background-image: url('./images/cube-front.jpg')"></div>
+                        <div class="cube-face cube-back" style="background-image: url('./images/cube-back.jpg')"></div>
+                        <div class="cube-face cube-right" style="background-image: url('./images/cube-right.jpg')"></div>
+                        <div class="cube-face cube-left" style="background-image: url('./images/cube-left.jpg')"></div>
+                        <div class="cube-face cube-top" style="background-image: url('./images/cube-top.jpg')"></div>
+                        <div class="cube-face cube-bottom" style="background-image: url('./images/cube-bottom.png')"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <section id="wish" class="section">
-        <div class="floating-hearts" id="floatingHearts"></div>
-        <div class="container wish-content">
-            <h2>Doa dan Harapanku Buat Kamu</h2>
-            <p>Di hari spesialmu ini, aku berdoa semoga semua mimpimu tercapai. Semoga hidupmu dipenuhi kebahagiaan, tawa, dan cinta sebanyak yang kamu kasih ke aku.</p>
-            <p>Semoga kamu selalu sehat, sukses di semua yang kamu lakuin, dan senyum indahmu itu nggak pernah pudar. Aku bakal selalu di sini, nyemangatin kamu di setiap langkah.</p>
-        </div>
-    </section>
+        <section id="game" class="section">
+            <div class="container">
+                <div id="quizContainer" class="glowing-card">
+                    <div id="quizContent">
+                        <div id="quizHeader">
+                            <h2 id="quizTitle">Kuis Singkat Edisi Kita!</h2>
+                            <p id="quizProgress"></p>
+                        </div>
+                        <p id="quizQuestion"></p>
+                        <div id="quizAnswers"></div>
+                    </div>
+                    <div id="quizResultScreen" style="display: none;">
+                        <h2>Hasil Kuis!</h2>
+                        <p id="quizScore"></p>
+                        <p id="quizResultMessage"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="surprise" class="section">
+            <div class="container">
+                <h2 class="surprise-title">Satu Janji Kecil...</h2>
+                <p id="surpriseText" class="surprise-text"></p>
+            </div>
+        </section>
+
+        <section id="wish" class="section">
+            <div class="floating-hearts" id="floatingHearts"></div>
+            <div class="container wish-content">
+                <h2>Doa dan Harapanku Buat Kamu</h2>
+                <p>Di hari spesialmu ini, aku berdoa semoga semua mimpimu tercapai. Semoga hidupmu dipenuhi kebahagiaan, tawa, dan cinta sebanyak yang kamu kasih ke aku.</p>
+                <p>Semoga kamu selalu sehat, sukses di semua yang kamu lakuin, dan senyum indahmu itu nggak pernah pudar. Aku bakal selalu di sini, nyemangatin kamu di setiap langkah.</p>
+            </div>
+        </section>
+        
+        <section id="final" class="full-screen section">
+            <div class="parallax-bg"></div>
+            <div class="container">
+                <h2 class="final-text">Pokoknya, aku sayang kamu lebih dari kata-kata.</h2>
+            </div>
+        </section>
+    </main>
     
-    <section id="final" class="full-screen section">
-        <div class="parallax-bg"></div>
-        <div class="container">
-            <h2 class="final-text">Pokoknya, aku sayang kamu lebih dari kata-kata.</h2>
-        </div>
-    </section>
-
     <!-- CDN Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Draggable.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
