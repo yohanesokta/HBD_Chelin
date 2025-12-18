@@ -79,7 +79,7 @@
         h2 { font-size: clamp(2.5rem, 8vw, 4rem); text-align: center; margin-bottom: calc(var(--spacing-unit) * 3); }
         p { font-size: clamp(1rem, 2.5vw, 1.15rem); margin-bottom: var(--spacing-unit); max-width: 65ch; margin-left: auto; margin-right: auto; }
 
-        .section { padding: calc(var(--spacing-unit) * 8) calc(var(--spacing-unit) * 2); position: relative; z-index: 2; overflow: hidden; }
+        .section { padding: calc(var(--spacing-unit) * 8) calc(var(--spacing-unit) * 2); position: relative; z-index: 2; /* overflow: hidden; */ }
         .container { max-width: 1000px; margin: 0 auto; }
         .full-screen { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
         
